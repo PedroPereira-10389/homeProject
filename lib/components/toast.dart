@@ -5,7 +5,7 @@ messageToast(text, status) {
   Color bg = Colors.green;
 
   switch (status) {
-    case 500:
+    case 500 || 400:
       bg = Colors.red;
       break;
     default:
@@ -15,7 +15,7 @@ messageToast(text, status) {
   return Fluttertoast.showToast(
       msg: text,
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
+      gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: bg,
       textColor: Colors.white,

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shopping_list/login.dart';
+import 'package:shopping_list/utils/localStorage.dart';
 
-Future<void> main() async{
+Future<void> main() async {
+  LocalStorage storage = LocalStorage();
   await dotenv.load();
+  await storage.delete();
   runApp(const MyApp());
 }
 

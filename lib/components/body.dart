@@ -12,14 +12,15 @@ class Body extends StatefulWidget {
 class _Body extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Container(
-            padding: const EdgeInsets.all(40),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(200),
-            ),
-            child: Column(
-              children: widget.content,
-            )));
+    return SingleChildScrollView(
+        child: Center(
+            child: Container(
+                padding: const EdgeInsets.all(40),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(200),
+                ),
+                child: Column(
+                  children: widget.content,
+                ))));
   }
 }

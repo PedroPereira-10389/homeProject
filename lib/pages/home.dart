@@ -1,14 +1,8 @@
-import 'package:aad_oauth/model/config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shopping_list/components/body.dart';
-import 'package:shopping_list/components/button.dart';
-import 'package:shopping_list/components/form.dart';
 import 'package:shopping_list/components/header.dart';
-import 'package:shopping_list/components/inputs.dart';
-import 'package:shopping_list/main.dart';
-import 'package:shopping_list/utils/helpers.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:shopping_list/pages/shopping/shoppingList.dart';
+import 'package:shopping_list/server/products/api/products.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,36 +13,75 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  List<AssetImage> cardsImages = [
+    const AssetImage('assets/images/home.jpg'),
+    const AssetImage('assets/images/home.jpg'),
+    const AssetImage('assets/images/home.jpg'),
+    const AssetImage('assets/images/home.jpg'),
+  ];
+  List<String> cardTitle = ['Shopping', 'Passwords', 'Calendar', 'Others'];
+  List<Widget> screens = [
+    const ShoppingList(),
+    const ShoppingList(),
+    const ShoppingList(),
+    const ShoppingList()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const Header(),
+        appBar: const Header(
+          goBack: false,
+          showIcons: true,
+        ),
         body: Body(content: [
-          GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1.0,
-                crossAxisSpacing: 0.0,
-                mainAxisSpacing: 5,
-                mainAxisExtent: 264,
-              ),
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              itemCount: 4,
-              itemBuilder: (ctx, i) {
-                return Card(
-                  child: Column(children: [
-                    Container(
-                      child: Text('My List'),
-                    ),
-                    Container(
-                      child: Text('My List'),
-                    )
-                  ]),
-                );
-              })
+          Container(
+              alignment: Alignment.center,
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2.9,
+                    crossAxisSpacing: 0.0,
+                    mainAxisSpacing: 10,
+                    mainAxisExtent: 200,
+                  ),
+                  shrinkWrap: true,
+                  itemCount: 4,
+                  itemBuilder: (ctx, i) {
+                    return GestureDetector(
+                        onTap: () => {goTo(screens[i])},
+                        child: Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          elevation: 5.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          child: SizedBox(
+                            width: 400,
+                            height: 200,
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image(image: cardsImages[i]),
+                                  Container(
+                                    height: 60,
+                                    alignment: Alignment.center,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(cardTitle[i]),
+                                    ),
+                                  )
+                                ]),
+                          ),
+                        ));
+                  }))
         ]));
+  }
+
+  void goTo(screen) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => screen),
+    );
   }
 }
